@@ -8,7 +8,7 @@
 <html>
    <head>
       <title>Contact Manager - Add Technician</title>
-      <link rel="stylesheet" type="text/css" href="/PHP_Assignment_4.2/tech_support copy/main.css">
+      <link rel="stylesheet" type="text/css" href="/PHP_Assignment_5/tech_support copy/main.css">
    </head>
    <body>
    <?php include '../view/header.php'; ?>
