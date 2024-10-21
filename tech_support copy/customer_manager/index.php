@@ -10,9 +10,43 @@
    <?php include '../view/header.php'; ?>
    <main>
       <table>
-         <th>Name</th>
-         <th>Email Address</th>
-         <th>City</th>
+         <thead>
+            <tr>
+               <th>Name</th>
+               <th>Email Address</th>
+               <th>City</th>
+            </tr>
+         </thead>
+         <tbody>
+            <?php
+            // database class
+            require_once('../model/database_oo.php');
+
+            // gets database connection
+            $db = Database::getDB();
+
+            //fetch customer data
+            $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers';
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $customers = $statement->fetchAll();
+            $statement->closeCursor();
+
+            // debugging: check if customers array is empty
+            if (empty($customers)) {
+               echo '<tr><td colspan="3">No customers found.</td></tr>';
+            } else {
+               // displays customer data
+               foreach ($customers as $customer) {
+                  echo '<tr>';
+                  echo '<td>' . htmlspecialchars($customer['name']) . '</td>';
+                  echo '<td>' . htmlspecialchars($customer['email']) . '</td>';
+                  echo '<td>' . htmlspecialchars($customer['city']) . '</td>';
+                  echo '</tr>';
+               }   
+            }
+            ?>
+         </tbody>
       </table>
    </main>
 
