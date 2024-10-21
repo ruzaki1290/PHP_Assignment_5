@@ -22,6 +22,7 @@
                <th>Name</th>
                <th>Email Address</th>
                <th>City</th>
+               <th>Action</th>
             </tr>
          </thead>
          <tbody>
@@ -54,13 +55,16 @@
                echo '<td>' . htmlspecialchars($customer['name']) . '</td>';
                echo '<td>' . htmlspecialchars($customer['email']) . '</td>';
                echo '<td>' . htmlspecialchars($customer['city']) . '</td>';
+               echo '<td><form action="view_update_customer.php" method="get">';
+               echo '<input type="hidden" name="id" value="' . htmlspecialchars($customers['id']) . '">';
+               echo '<input type="submit" value="Select">';
+               echo '</form></td>';
                echo '</tr>';
             }   
             ?>
          </tbody>
       </table>
    </main>
-
+   <?php include '../view/footer.php'; ?> 
 </body>
-<?php include '../view/footer.php'; ?> 
 </html>
