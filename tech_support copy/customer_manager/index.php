@@ -37,12 +37,12 @@
             $lastName = filter_input(INPUT_GET, 'lastName', FILTER_SANITIZE_STRING);
 
             //fetch customer data
-            IF ($lastName) {
-               $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers WHERE lastName = :lastName';
+            if ($lastName) {
+               $query = 'SELECT customerID, CONCAT(firstName, " ", lastName) AS name, email, city FROM customers WHERE lastName = :lastName';
                $statement = $db->prepare($query);
                $statement->bindValue(':lastName', $lastName);
             } else {
-               $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers';
+               $query = 'SELECT customerID, CONCAT(firstName, " ", lastName) AS name, email, city FROM customers';
                $statement = $db->prepare($query);
             }
             $statement->execute();
@@ -56,7 +56,7 @@
                echo '<td>' . htmlspecialchars($customer['email']) . '</td>';
                echo '<td>' . htmlspecialchars($customer['city']) . '</td>';
                echo '<td><form action="view_update_customer.php" method="get">';
-               echo '<input type="hidden" name="id" value="' . htmlspecialchars($customers['id']) . '">';
+               echo '<input type="hidden" name="customerID" value="' . htmlspecialchars($customer['customerID']) . '">';
                echo '<input type="submit" value="Select">';
                echo '</form></td>';
                echo '</tr>';
