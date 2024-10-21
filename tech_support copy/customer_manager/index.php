@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Manage Customers</title>
+   <title>Contact Manager - Manage Customers</title>
    <link rel="stylesheet" href="/PHP_Assignment_5/tech_support copy/main.css">
 </head>
 <body>
