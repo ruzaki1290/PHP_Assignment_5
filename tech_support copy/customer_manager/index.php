@@ -9,6 +9,13 @@
 <body>
    <?php include '../view/header.php'; ?>
    <main>
+      <h2>Search Customers</h2>
+      <form action="index.php" method="get">
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName" placeholder="jasper" required>
+            <input type="submit" value="Search">
+      </form>
+      <h2>Results</h2>
       <table>
          <thead>
             <tr>
@@ -25,26 +32,30 @@
             // gets database connection
             $db = Database::getDB();
 
+            // check if the last name is provided
+            $lastName = filter_input(INPUT_GET, 'lastName', FILTER_SANITIZE_STRING);
+
             //fetch customer data
-            $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers';
-            $statement = $db->prepare($query);
+            IF ($lastName) {
+               $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers WHERE lastName = :lastName';
+               $statement = $db->prepare($query);
+               $statement->bindValue(':lastName', $lastName);
+            } else {
+               $query = 'SELECT CONCAT(firstName, " ", lastName) AS name, email, city FROM customers';
+               $statement = $db->prepare($query);
+            }
             $statement->execute();
             $customers = $statement->fetchAll();
             $statement->closeCursor();
 
-            // debugging: check if customers array is empty
-            if (empty($customers)) {
-               echo '<tr><td colspan="3">No customers found.</td></tr>';
-            } else {
-               // displays customer data
-               foreach ($customers as $customer) {
-                  echo '<tr>';
-                  echo '<td>' . htmlspecialchars($customer['name']) . '</td>';
-                  echo '<td>' . htmlspecialchars($customer['email']) . '</td>';
-                  echo '<td>' . htmlspecialchars($customer['city']) . '</td>';
-                  echo '</tr>';
-               }   
-            }
+            // displays customer data
+            foreach ($customers as $customer) {
+               echo '<tr>';
+               echo '<td>' . htmlspecialchars($customer['name']) . '</td>';
+               echo '<td>' . htmlspecialchars($customer['email']) . '</td>';
+               echo '<td>' . htmlspecialchars($customer['city']) . '</td>';
+               echo '</tr>';
+            }   
             ?>
          </tbody>
       </table>
